@@ -15,7 +15,7 @@
 #import "Sift.h"
 #import "SiftIosAppState.h"
 
-SiftHtDictionary *SFMakeEmptyIosAppState() {
+NSDictionary *SFMakeEmptyIosAppState() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -46,10 +46,10 @@ SiftHtDictionary *SFMakeEmptyIosAppState() {
 
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
-static SiftHtDictionary *SFMakeLocation() {
+static NSDictionary *SFMakeLocation() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -70,10 +70,10 @@ static SiftHtDictionary *SFMakeLocation() {
         
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
-static SiftHtDictionary *SFMakeHeading() {
+static NSDictionary *SFMakeHeading() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -93,10 +93,10 @@ static SiftHtDictionary *SFMakeHeading() {
 
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
-static SiftHtDictionary *SFMakeIosDeviceMotion() {
+static NSDictionary *SFMakeIosDeviceMotion() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -128,10 +128,10 @@ static SiftHtDictionary *SFMakeIosDeviceMotion() {
 
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
-static SiftHtDictionary *SFMakeIosDeviceAccelerometerData() {
+static NSDictionary *SFMakeIosDeviceAccelerometerData() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -146,10 +146,10 @@ static SiftHtDictionary *SFMakeIosDeviceAccelerometerData() {
 
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
-static SiftHtDictionary *SFMakeIosDeviceGyroData() {
+static NSDictionary *SFMakeIosDeviceGyroData() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -164,10 +164,10 @@ static SiftHtDictionary *SFMakeIosDeviceGyroData() {
 
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
-static SiftHtDictionary *SFMakeIosDeviceMagnetometerData() {
+static NSDictionary *SFMakeIosDeviceMagnetometerData() {
     static SF_GENERICS(NSMutableDictionary, NSString *, Class) *entryTypes;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
@@ -182,30 +182,30 @@ static SiftHtDictionary *SFMakeIosDeviceMagnetometerData() {
 
 #undef ENTRY_TYPE
     });
-    return [[SiftHtDictionary alloc] initWithEntryTypes:entryTypes];
+    return entryTypes;
 }
 
 #pragma mark - Converters
 
-SiftHtDictionary *SFCMDeviceMotionToDictionary(CMDeviceMotion *data, SFTimestamp now) {
-    SiftHtDictionary *dict = SFMakeIosDeviceMotion();
-    [dict setEntry:@"time" value:[NSNumber numberWithUnsignedLongLong:now]];
-    [dict setEntry:@"attitude_roll" value:[NSNumber numberWithDouble:data.attitude.roll]];
-    [dict setEntry:@"attitude_pitch" value:[NSNumber numberWithDouble:data.attitude.pitch]];
-    [dict setEntry:@"attitude_yaw" value:[NSNumber numberWithDouble:data.attitude.yaw]];
-    [dict setEntry:@"rotation_rate_x" value:[NSNumber numberWithDouble:data.rotationRate.x]];
-    [dict setEntry:@"rotation_rate_y" value:[NSNumber numberWithDouble:data.rotationRate.y]];
-    [dict setEntry:@"rotation_rate_z" value:[NSNumber numberWithDouble:data.rotationRate.z]];
-    [dict setEntry:@"gravity_x" value:[NSNumber numberWithDouble:data.gravity.x]];
-    [dict setEntry:@"gravity_y" value:[NSNumber numberWithDouble:data.gravity.y]];
-    [dict setEntry:@"gravity_z" value:[NSNumber numberWithDouble:data.gravity.z]];
-    [dict setEntry:@"user_acceleration_x" value:[NSNumber numberWithDouble:data.userAcceleration.x]];
-    [dict setEntry:@"user_acceleration_y" value:[NSNumber numberWithDouble:data.userAcceleration.y]];
-    [dict setEntry:@"user_acceleration_z" value:[NSNumber numberWithDouble:data.userAcceleration.z]];
+NSDictionary *SFCMDeviceMotionToDictionary(CMDeviceMotion *data, SFTimestamp now) {
+    NSDictionary *dict = SFMakeIosDeviceMotion();
+    [dict setValue:[NSNumber numberWithUnsignedLongLong:now] forKey:@"time"];
+    [dict setValue:[NSNumber numberWithDouble:data.attitude.roll] forKey:@"attitude_roll"];
+    [dict setValue:[NSNumber numberWithDouble:data.attitude.pitch] forKey:@"attitude_pitch"];
+    [dict setValue:[NSNumber numberWithDouble:data.attitude.yaw] forKey:@"attitude_yaw"];
+    [dict setValue:[NSNumber numberWithDouble:data.rotationRate.x] forKey:@"rotation_rate_x"];
+    [dict setValue:[NSNumber numberWithDouble:data.rotationRate.y] forKey:@"rotation_rate_y"];
+    [dict setValue:[NSNumber numberWithDouble:data.rotationRate.z] forKey:@"rotation_rate_z"];
+    [dict setValue:[NSNumber numberWithDouble:data.gravity.x] forKey:@"gravity_x"];
+    [dict setValue:[NSNumber numberWithDouble:data.gravity.y] forKey:@"gravity_y"];
+    [dict setValue:[NSNumber numberWithDouble:data.gravity.z] forKey:@"gravity_z"];
+    [dict setValue:[NSNumber numberWithDouble:data.userAcceleration.x] forKey:@"user_acceleration_x"];
+    [dict setValue:[NSNumber numberWithDouble:data.userAcceleration.y] forKey:@"user_acceleration_y"];
+    [dict setValue:[NSNumber numberWithDouble:data.userAcceleration.z] forKey:@"user_acceleration_z"];
     if (data.magneticField.accuracy != CMMagneticFieldCalibrationAccuracyUncalibrated) {
-        [dict setEntry:@"magnetic_field_x" value:[NSNumber numberWithDouble:data.magneticField.field.x]];
-        [dict setEntry:@"magnetic_field_y" value:[NSNumber numberWithDouble:data.magneticField.field.y]];
-        [dict setEntry:@"magnetic_field_z" value:[NSNumber numberWithDouble:data.magneticField.field.z]];
+        [dict setValue:[NSNumber numberWithDouble:data.magneticField.field.x] forKey:@"magnetic_field_x"];
+        [dict setValue:[NSNumber numberWithDouble:data.magneticField.field.y] forKey:@"magnetic_field_y"];
+        [dict setValue:[NSNumber numberWithDouble:data.magneticField.field.z] forKey:@"magnetic_field_x"];
         NSString *value = nil;
         switch (data.magneticField.accuracy) {
 #define CASE(enum_value) case enum_value: value = SFCamelCaseToSnakeCase(@#enum_value); break;
@@ -216,36 +216,36 @@ SiftHtDictionary *SFCMDeviceMotionToDictionary(CMDeviceMotion *data, SFTimestamp
 #undef CASE
         }
         if (value) {
-            [dict setEntry:@"magnetic_field_calibration_accuracy" value:value];
+            [dict setValue:value forKey:@"magnetic_field_calibration_accuracy"];
         }
     }
     return dict;
 }
 
-SiftHtDictionary *SFCMAccelerometerDataToDictionary(CMAccelerometerData *data, SFTimestamp now) {
-    SiftHtDictionary *dict = SFMakeIosDeviceAccelerometerData();
-    [dict setEntry:@"time" value:[NSNumber numberWithUnsignedLongLong:now]];
-    [dict setEntry:@"acceleration_x" value:[NSNumber numberWithDouble:data.acceleration.x]];
-    [dict setEntry:@"acceleration_y" value:[NSNumber numberWithDouble:data.acceleration.y]];
-    [dict setEntry:@"acceleration_z" value:[NSNumber numberWithDouble:data.acceleration.z]];
+NSDictionary *SFCMAccelerometerDataToDictionary(CMAccelerometerData *data, SFTimestamp now) {
+    NSDictionary *dict = SFMakeIosDeviceAccelerometerData();
+    [dict setValue:[NSNumber numberWithUnsignedLongLong:now] forKey:@"time"];
+    [dict setValue:[NSNumber numberWithDouble:data.acceleration.x] forKey:@"acceleration_x"];
+    [dict setValue:[NSNumber numberWithDouble:data.acceleration.y] forKey:@"acceleration_y"];
+    [dict setValue:[NSNumber numberWithDouble:data.acceleration.z] forKey:@"acceleration_z"];
     return dict;
 }
 
-SiftHtDictionary *SFCMGyroDataToDictionary(CMGyroData *data, SFTimestamp now) {
-    SiftHtDictionary *dict = SFMakeIosDeviceGyroData();
-    [dict setEntry:@"time" value:[NSNumber numberWithUnsignedLongLong:now]];
-    [dict setEntry:@"rotation_rate_x" value:[NSNumber numberWithDouble:data.rotationRate.x]];
-    [dict setEntry:@"rotation_rate_y" value:[NSNumber numberWithDouble:data.rotationRate.y]];
-    [dict setEntry:@"rotation_rate_z" value:[NSNumber numberWithDouble:data.rotationRate.z]];
+NSDictionary *SFCMGyroDataToDictionary(CMGyroData *data, SFTimestamp now) {
+    NSDictionary *dict = SFMakeIosDeviceGyroData();
+    [dict setValue:[NSNumber numberWithUnsignedLongLong:now] forKey:@"time"];
+    [dict setValue:[NSNumber numberWithDouble:data.rotationRate.x] forKey:@"rotation_rate_x"];
+    [dict setValue:[NSNumber numberWithDouble:data.rotationRate.y] forKey:@"rotation_rate_y"];
+    [dict setValue:[NSNumber numberWithDouble:data.rotationRate.z] forKey:@"rotation_rate_z"];
     return dict;
 }
 
-SiftHtDictionary *SFCMMagnetometerDataToDictionary(CMMagnetometerData *data, SFTimestamp now) {
-    SiftHtDictionary *dict = SFMakeIosDeviceMagnetometerData();
-    [dict setEntry:@"time" value:[NSNumber numberWithUnsignedLongLong:now]];
-    [dict setEntry:@"magnetic_field_x" value:[NSNumber numberWithDouble:data.magneticField.x]];
-    [dict setEntry:@"magnetic_field_y" value:[NSNumber numberWithDouble:data.magneticField.y]];
-    [dict setEntry:@"magnetic_field_z" value:[NSNumber numberWithDouble:data.magneticField.z]];
+NSDictionary *SFCMMagnetometerDataToDictionary(CMMagnetometerData *data, SFTimestamp now) {
+    NSDictionary *dict = SFMakeIosDeviceMagnetometerData();
+    [dict setValue:[NSNumber numberWithUnsignedLongLong:now] forKey:@"time"];
+    [dict setValue:[NSNumber numberWithDouble:data.magneticField.x] forKey:@"magnetic_field_x"];
+    [dict setValue:[NSNumber numberWithDouble:data.magneticField.y] forKey:@"magnetic_field_y"];
+    [dict setValue:[NSNumber numberWithDouble:data.magneticField.z] forKey:@"magnetic_field_z"];
     return dict;
 }
 
@@ -253,10 +253,9 @@ SiftHtDictionary *SFCMMagnetometerDataToDictionary(CMMagnetometerData *data, SFT
 
 static SF_GENERICS(NSArray, NSString *) *getIpAddresses(void);
 
-SiftHtDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSString *title) {
-    SiftHtDictionary *iosAppState = SFMakeEmptyIosAppState();
-    
-    [iosAppState setEntry:@"sdk_version" value:[Sift sharedInstance].sdkVersion];
+NSDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSString *title) {
+    NSDictionary *iosAppState = [NSMutableDictionary new]; // SFMakeEmptyIosAppState();
+    [iosAppState setValue:[Sift sharedInstance].sdkVersion forKey:@"sdk_version"];
 
     NSString *applicationState = nil;
     switch (UIApplication.sharedApplication.applicationState) {
@@ -267,12 +266,11 @@ SiftHtDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSStr
 #undef CASE
     }
     if (applicationState) {
-        [iosAppState setEntry:@"application_state" value:applicationState];
+        [iosAppState setValue:applicationState forKey:@"application_state"];
     }
 
     if (title) {
-        [iosAppState setEntry:@"window_root_view_controller_titles"
-                        value:[[NSArray alloc] initWithObjects:title, nil]];
+        [iosAppState setValue:[[NSArray alloc] initWithObjects:title, nil] forKey:@"window_root_view_controller_titles"];
     }
 
     UIDevice *device = UIDevice.currentDevice;
@@ -281,7 +279,7 @@ SiftHtDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSStr
     if (device.isBatteryMonitoringEnabled) {
         double batteryLevel = device.batteryLevel;
         if (batteryLevel >= 0) {
-            [iosAppState setEntry:@"battery_level" value:[NSNumber numberWithDouble:batteryLevel]];
+            [iosAppState setValue:[NSNumber numberWithDouble:batteryLevel] forKey:@"battery_level"];
         }
         NSString *batteryState = nil;
         switch (device.batteryState) {
@@ -293,7 +291,7 @@ SiftHtDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSStr
 #undef CASE
         }
         if (batteryState) {
-            [iosAppState setEntry:@"battery_state" value:batteryState];
+            [iosAppState setValue:batteryState forKey:@"battery_state"];
         }
     }
 
@@ -312,17 +310,17 @@ SiftHtDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSStr
 #undef CASE
         }
         if (deviceOrientation) {
-            [iosAppState setEntry:@"device_orientation" value:deviceOrientation];
+            [iosAppState setValue:deviceOrientation forKey:@"device_orientation"];
         }
     }
 
     // Proximity
     if (device.isProximityMonitoringEnabled) {
-        [iosAppState setEntry:@"proximity_state" value:[NSNumber numberWithBool:device.proximityState]];
+        [iosAppState setValue:[NSNumber numberWithBool:device.proximityState] forKey:@"proximity_state"];
     }
 
     // Network
-    [iosAppState setEntry:@"network_addresses" value:getIpAddresses()];
+    [iosAppState setValue:getIpAddresses() forKey:@"network_addresses"];
     
     // Location data will be collected in SFIosAppStateCollector
 
@@ -333,44 +331,46 @@ SiftHtDictionary *SFCollectIosAppState(CLLocationManager *locationManager, NSStr
 
 #pragma mark - Helper functions.
 
-SiftHtDictionary *SFCLLocationToDictionary(CLLocation *location) {
-    SiftHtDictionary *dict = SFMakeLocation();
-    [dict setEntry:@"time" value:[NSNumber numberWithLongLong:(location.timestamp.timeIntervalSince1970 * 1000)]];
+NSDictionary *SFCLLocationToDictionary(CLLocation *location) {
+    NSDictionary *dict = SFMakeLocation();
+    [dict setValue:[NSNumber numberWithLongLong:(location.timestamp.timeIntervalSince1970 * 1000)] forKey:@"time"];
     
     if (location.horizontalAccuracy >= 0) {
-        [dict setEntry:@"latitude" value:[NSNumber numberWithDouble:location.coordinate.latitude]];
-        [dict setEntry:@"longitude" value:[NSNumber numberWithDouble:location.coordinate.longitude]];
-        [dict setEntry:@"horizontal_accuracy" value:[NSNumber numberWithDouble:location.horizontalAccuracy]];
+        [dict setValue:[NSNumber numberWithDouble:location.coordinate.latitude] forKey:@"latitude"];
+        [dict setValue:[NSNumber numberWithDouble:location.coordinate.longitude] forKey:@"longitude"];
+        [dict setValue:[NSNumber numberWithDouble:location.horizontalAccuracy] forKey:@"horizontal_accuracy"];
     }
     if (location.verticalAccuracy >= 0) {
-        [dict setEntry:@"altitude" value:[NSNumber numberWithDouble:location.altitude]];
-        [dict setEntry:@"vertical_accuracy" value:[NSNumber numberWithDouble:location.verticalAccuracy]];
+        [dict setValue:[NSNumber numberWithDouble:location.altitude] forKey:@"altitude"];
+        [dict setValue:[NSNumber numberWithDouble:location.verticalAccuracy] forKey:@"vertical_accuracy"];
     }
     if (location.floor) {
-        [dict setEntry:@"floor" value:[NSNumber numberWithInteger:location.floor.level]];
+        [dict setValue:[NSNumber numberWithInteger:location.floor.level] forKey:@"floor"];
     }
     if (location.speed >= 0) {
-        [dict setEntry:@"speed" value:[NSNumber numberWithDouble:location.speed]];
+        [dict setValue:[NSNumber numberWithDouble:location.speed] forKey:@"speed"];
     }
     if (location.course >= 0) {
-        [dict setEntry:@"course" value:[NSNumber numberWithDouble:location.course]];
+        [dict setValue:[NSNumber numberWithDouble:location.course] forKey:@"course"];
     }
+
     return dict;
 }
 
-SiftHtDictionary *SFCLHeadingToDictionary(CLHeading *heading) {
-    SiftHtDictionary *dict = SFMakeHeading();
-    [dict setEntry:@"time" value:[NSNumber numberWithLongLong:(heading.timestamp.timeIntervalSince1970 * 1000)]];
+NSDictionary *SFCLHeadingToDictionary(CLHeading *heading) {
+    NSDictionary *dict = SFMakeHeading();
+    [dict setValue:[NSNumber numberWithLongLong:(heading.timestamp.timeIntervalSince1970 * 1000)] forKey:@"time"];
     if (heading.headingAccuracy >= 0) {
-        [dict setEntry:@"magnetic_heading" value:[NSNumber numberWithDouble:heading.magneticHeading]];
-        [dict setEntry:@"accuracy" value:[NSNumber numberWithDouble:heading.headingAccuracy]];
+        [dict setValue:[NSNumber numberWithDouble:heading.magneticHeading] forKey:@"magnetic_heading"];
+        [dict setValue:[NSNumber numberWithDouble:heading.headingAccuracy] forKey:@"accuracy"];
     }
     if (heading.trueHeading >= 0) {
-        [dict setEntry:@"true_heading" value:[NSNumber numberWithDouble:heading.trueHeading]];
+        [dict setValue:[NSNumber numberWithDouble:heading.trueHeading] forKey:@"true_heading"];
     }
-    [dict setEntry:@"raw_magnetic_field_x" value:[NSNumber numberWithDouble:heading.x]];
-    [dict setEntry:@"raw_magnetic_field_y" value:[NSNumber numberWithDouble:heading.y]];
-    [dict setEntry:@"raw_magnetic_field_z" value:[NSNumber numberWithDouble:heading.z]];
+    [dict setValue:[NSNumber numberWithDouble:heading.x] forKey:@"raw_magnetic_field_x"];
+    [dict setValue:[NSNumber numberWithDouble:heading.y] forKey:@"raw_magnetic_field_y"];
+    [dict setValue:[NSNumber numberWithDouble:heading.z] forKey:@"raw_magnetic_field_z"];
+
     return dict;
 }
 

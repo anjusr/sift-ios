@@ -123,11 +123,11 @@ static NSString * const SF_METRICS = @"metrics";
             SF_DEBUG(@"Some fields of event are incorrect: %@", event);
             continue;
         }
-        if (event.iosAppState) {
-            [eventRequest setObject:event.iosAppState.entries forKey:@"ios_app_state"];
+        if (event.iosAppState != nil) {
+            [eventRequest setObject:event.iosAppState forKey:@"ios_app_state"];
         }
         if (event.iosDeviceProperties) {
-            [eventRequest setObject:event.iosDeviceProperties.entries forKey:@"ios_device_properties"];
+            [eventRequest setObject:event.iosDeviceProperties forKey:@"ios_device_properties"];
         }
         [data addObject:eventRequest];
     }

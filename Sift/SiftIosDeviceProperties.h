@@ -4,6 +4,6 @@
 
 #import "SiftHtDictionary.h"
 
-SiftHtDictionary *SFMakeEmptyIosDeviceProperties(void);
+NSDictionary *SFMakeEmptyIosDeviceProperties(void);
 
-SiftHtDictionary *SFCollectIosDeviceProperties(void);
+NSDictionary *SFCollectIosDeviceProperties(void);
